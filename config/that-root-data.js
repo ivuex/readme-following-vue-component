@@ -1,1 +1,1 @@
-module.exports="src/vhtml/tdir/tdir.js"
+module.exports="src/example/overShowSub/overShowSub.js"

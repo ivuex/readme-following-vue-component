@@ -13,7 +13,7 @@ console.log('above is the entry which is required , is it right?');
 module.exports = {
     entry: entry,
     output: {
-        path: Path.resolve('.', 'dist'),
+        path: Path.resolve('.', 'dist', entry),
         filename: '[name]/entry.js'
     },
     devtool: "inline-source-map",
