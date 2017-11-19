@@ -15,7 +15,7 @@
       >
 
         <hideShow
-          v-if="isInMe || isInBar"
+          v-show="isInMe || isInBar"
           @updateIsInBar="setIsInBar"
         ></hideShow>
       </div>

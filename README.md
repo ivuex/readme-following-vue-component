@@ -1,63 +1,68 @@
-# vue-sass-that-all-webpack
+# readme-following-vue-component
 
-## **特性**
-##### 为每个vue子组件生成独立的hmtl;
-##### 可以在任意子组件的根目录开启一个独立的webpack-dev-server服务;
-
+## 页面结构
+- 顶部放单页内 *vue demo*;
+- 颈部放 *JSON.stringify* 处理过的数据状态 ;
+- 页面剩余部分放 *vue readme* 编辑器/阅读器 ;
+## 特别依赖: 
+- vue
+- vue-simplemde 
 ## 目录结构
+－ 除了 *src* 以外的目录结构 请阅读 *webpack.README.md* ;
+- *src* 是本项目特有源码 ;
 
-## usage: 
+> *vue 组件目录结构*由*vue-sass-cli*生成;
+> 详见:
+> - npm: https://www.npmjs.com/package/vue-sass-cli
+> - github: https://github.com/ivuex/vue-sass-cli
+>
+> why?
+> - 为了方便that.webpack.config.js启动和编译任意子组件;
+> - 为了方便webpack.config.js编译所有组件(根组件和子孙组件),并生成静态html;
+>
+> 详见
+> - *webpack.README.md* ;
+> - git@github.com:ivuex/vue-sass-that-all-webpack.git
+> - https://github.com/ivuex/vue-sass-that-all-webpack
 
-#### 开发
-##### 在根目录递归监听所有子组件,并在内存中编译多个html
-``` lang=shell
-$ npm start
+## example 例子介绍
+###  overShowSub
+- 功能: 监听mouseOver和mouseOut事件,　切换hideShow组建的显示和隐藏状态;
++ 实现逻辑: 
+#### overShowSub 组件:
+  - 操作overShowSub的this.isInMe属性;
+  - 如果mouseOver事件触发，将组件overShowSub的this.isInMe赋值为true;
+  - 如果mouseOver事件触发，将组件overShowSub的this.isInMe赋值为false;
+  - 引入hideShow组件;
+  + 在overShowSub的作用域内的template中为hideShow组件加一个自定义事件updateIsInBar;
+    - 将该事件绑定上setIsInBar方法,该方法接受一个布尔值参数,并将该该布尔值参数赋值给this.isInBar;
+  + 如果this.isInMe和hideShow组件通过$emit的方式决定的this.isInBar同时被判断为真,则显示hideShow组件；
+    - 反之,则隐藏该组件；
+    
+#### hideShow　组件    
+  - 操作hideShow的this.isInBar属性;
+  + 如果mouseOver事件触发,
+    - 将组件overShowSub的this.isInBar赋值为true;
+    - 通过$emit的方式将this.isInBar传给父组件的updateIsInBar事件；
+  + 如果mouseOver事件触发，
+    - 将组件overShowSub的this.isInMe赋值为false;
+    - 通过$emit的方式将this.isInBar传给父组件的updateIsInBar事件；
 
-# OR
-
-$ npm run dev
+#### readmeOverShowSub　组件
+  + 实现demo在当前页面显示: 引入 vue-simplemde 实现markdown编辑和解析;
+    - vue-simplemde 详见: https://github.com/F-loat/vue-simplemde
+    - 引入　highlight.js 实现编译后的markdown代码高亮显示;  
+    - 高亮主题可选列表：https://github.com/isagalaev/highlight.js/tree/master/src/styles
+    + vue-simplemde 配置详情:
+      - 中文： https://github.com/F-loat/vue-simplemde/blob/master/doc/configuration_zh.md
+      - 英文： https://github.com/F-loat/vue-simplemde/blob/master/doc/configuration_en.md
+  + vue-simplemde 引进来会在顶部出现一个text-area, 我是这样使之隐藏的:    
 ```
-##### 在任意子组件根目录中监听所有子组件,并编译html
-``` lang=shell
-$ npm run that -- --root=`pwd`
-
-# OR
-
-$ npm run that -- --root=$(pwd)
-```
-
-#### vue-sass-cli生成配套的vue子组件目录结构
-``` lang=shell
-$ npm i vue-sass-cli -g
-$ vue-sass ${component-name}
-```
-> 更多详情： npm: https://www.npmjs.com/package/vue-sass-cli
->          github: https://github.com/ivuex/vue-sass-cli
-
-#### 打包静态文件
-``` lang=shell
-$ npm run build
-```
-
-
-## 目录介绍
-#### $root/package.json: 项目中会用到的依赖
-#### $root/package.lock.js: 项目依赖锁文件
-#### $root/webpack.config.js:  webpack(-dev-server)递归监听配置文件
-#### $root/that.webpack.config.js:  webpack-dev-server独立组件配置文件
-#### $root/config: 配置文件
-###### $root/config/all.entryObj.js: 递归获取vue组件入口资源的脚本
-###### $root/config/that.js: webpack-dev-server独立组件配置文件的参数处理和入口目录路径输出脚本
-###### $root/config/that-root-data.js: 导出webpack-dev-server独立组件配置文件的参数处理和入口目录路径的js文件, 由that.js动态生成;
-#### $root/node_modules: 依赖库目录
-#### $root/main.js: 入口文件
-#### $root/index.html: 模板文件
-#### $root/src:　正在或者将要开发的源文件根目录, 这里边的文件可以全部删除，可以用vue-sass-cli脚手架生成
-#### $root/dist: 将生成的或者已生成的静态文件根目录
-
-# ENJOY IT ! 
- 
-#### By doc2git 
-#### 写于: 2017.11.01 
-        
-
+mounted() {
+      this.$nextTick(() => {
+        const ele = this.$refs.markdownEditor.$el;
+        const mustHiddenTextarea = ele.getElementsByTagName('textarea')[0]
+        mustHiddenTextarea.style.visibility = 'hidden';
+      });
+    },
+```  
