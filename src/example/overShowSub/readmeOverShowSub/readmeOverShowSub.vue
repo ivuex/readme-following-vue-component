@@ -34,7 +34,29 @@
     name: "readmeOverShowSub",
     data() {
       return {
-        content: '',
+        content: `
+ ###  overShowSub
+- 功能: 监听mouseOver和mouseOut事件,　切换hideShow组建的显示和隐藏状态;
++ 实现逻辑:
+#### overShowSub 组件:
+  - 操作overShowSub的this.isInMe属性;
+  - 如果mouseOver事件触发，将组件overShowSub的this.isInMe赋值为true;
+  - 如果mouseOver事件触发，将组件overShowSub的this.isInMe赋值为false;
+  - 引入hideShow组件;
+  + 在overShowSub的作用域内的template中为hideShow组件加一个自定义事件updateIsInBar;
+    - 将该事件绑定上setIsInBar方法,该方法接受一个布尔值参数,并将该该布尔值参数赋值给this.isInBar;
+  + 如果this.isInMe和hideShow组件通过$emit的方式决定的this.isInBar同时被判断为真,则显示hideShow组件；
+    - 反之,则隐藏该组件；
+
+#### hideShow　组件
+  - 操作hideShow的this.isInBar属性;
+  + 如果mouseOver事件触发,
+    - 将组件overShowSub的this.isInBar赋值为true;
+    - 通过$emit的方式将this.isInBar传给父组件的updateIsInBar事件；
+  + 如果mouseOver事件触发，
+    - 将组件overShowSub的this.isInMe赋值为false;
+    - 通过$emit的方式将this.isInBar传给父组件的updateIsInBar事件；
+        `,
         configs: {
           status: false, // 禁用底部状态栏
           spellChecker: false, // 禁用拼写检查
