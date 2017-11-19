@@ -14,8 +14,8 @@
 
     <!-- 添加配置 -->
     <!--<markdown-editor-->
-      <!--preview-class="markdown-body"-->
-      <!--:highlight="true" :configs="configs"></markdown-editor>-->
+    <!--preview-class="markdown-body"-->
+    <!--:highlight="true" :configs="configs"></markdown-editor>-->
 
     <!--&lt;!&ndash; 不自动初始化 &ndash;&gt;-->
     <!--<markdown-editor  :highlight="true" :autoinit="false"></markdown-editor>-->
@@ -26,7 +26,8 @@
   // import Vue from 'vue';
   // const bus = new Vue();
   import markdownEditor from 'vue-simplemde/src/markdown-editor.vue';
-  import  hljs from 'highlight.js';
+  import hljs from 'highlight.js';
+
   window.hljs = hljs;
 
   export default {
@@ -47,14 +48,11 @@
     computed: {
       simplemde: {
         get: function () {
-          const ele = this.$refs.markdownEditor.$el;
-            console.log(ele);
-            const textarea = ele.getElementsByTagName('textarea')[0]
-          console.log(textarea);
-          textarea.style.visibility = 'hidden';
+
           return this.$refs.markdownEditor.simplemde;
         },
-        set: function () { }
+        set: function () {
+        }
       }
     },
     methods: {
@@ -63,9 +61,6 @@
       },
     },
     mounted() {
-      console.log(this);
-      const that = this;
-      console.log(this.simplemde);
       this.simplemde.togglePreview();
 
       // 'change'事件已经绑定，可以通过@input指定处理器
@@ -87,8 +82,10 @@
       this.simplemde.markdown(this.content); // returns parsed html
       this.simplemde.codemirror.refresh(); // refresh codemirror
 
-      this.$nextTick(()=>{
-
+      this.$nextTick(() => {
+        const ele = this.$refs.markdownEditor.$el;
+        const mustHiddenTextarea = ele.getElementsByTagName('textarea')[0]
+        mustHiddenTextarea.style.visibility = 'hidden';
       });
     },
   }
@@ -99,7 +96,8 @@
   @import '~github-markdown-css';
   @import '~highlight.js/styles/atom-one-dark.css';
   @import '~simplemde-theme-base/dist/simplemde-theme-base.min.css';
-  .markdown-editor textarea{
+
+  .markdown-editor textarea {
     display: none;
     visibility: hidden;
   }

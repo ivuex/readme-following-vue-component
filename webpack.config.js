@@ -6,8 +6,8 @@ let entry = require('./config/all.entryObj.js');
 const aryHtmlWebpackPlugin = Object.keys(entry).map(function (key) {
     return new HtmlWebpackPlugin({
         template: 'src/' + key + '/.stable/template.html',
-        // filename: key + '/' + [key.match(/([\w-]+)$/)[1]] + '.html',
-        filename: key + '/' + 'index' + '.html',
+        filename: key + '/' + [key.match(/([\w-]+)$/)[1]] + '.html',
+        // filename: key + '/' + 'index' + '.html',
         chunks: [key],
     })
 });
